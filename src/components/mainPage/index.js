@@ -1,10 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withGoogleMap, GoogleMap } from "react-google-maps";
+
+import MainPageMap from "./mainPageMap";
 
 class MainPage extends React.Component {
   render() {
-    return <h1>Kerala Flood Relief </h1>;
+    return (
+      <div>
+        <MainPageMap
+          containerElement={<div style={{ height: `500px`, width: "500px" }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      </div>
+    );
   }
 }
 
