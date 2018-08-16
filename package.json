@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "firebase": "^5.3.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-google-maps": "^9.4.5",
     "react-scripts": "1.1.4"
   },
   "scripts": {
@@ -12,5 +14,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.13",
+    "prettier": "^1.14.2",
+    "pretty-quick": "^1.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
