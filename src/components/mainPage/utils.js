@@ -21,6 +21,5 @@ export function isValidCoords(latlng) {
 
 export function isAccurate(accuracy) {
   const meters = parseInt(accuracy.match(/\d+/g));
-
   return meters <= 3000;
 }
