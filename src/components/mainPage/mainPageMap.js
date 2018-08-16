@@ -7,25 +7,7 @@ import BlueMarker from "../../assets/blue-dot.png";
 import GreenMarker from "../../assets/green-dot.png";
 import MarkerShadow from "../../assets/marker-shadow.png";
 
-function isValidCoords(latlng) {
-  const lat = parseFloat(latlng.split(",")[0]);
-  const lng = parseFloat(latlng.split(",")[1]);
-
-  if (isNaN(lat) || isNaN(lng)) return false;
-  else return true;
-}
-
-function isAccurate(accuracy) {
-  const meters = parseInt(accuracy.match(/\d+/g));
-
-  return meters <= 3000;
-}
-
-function returnCoord(latlng) {
-  const lat = parseFloat(latlng.split(",")[0]);
-  const lng = parseFloat(latlng.split(",")[1]);
-  return [lat, lng];
-}
+import { isValidCoords, returnCoord, isAccurate } from "./utils";
 
 const redMarkerIcon = new L.Icon({
   iconUrl: RedMarker,
