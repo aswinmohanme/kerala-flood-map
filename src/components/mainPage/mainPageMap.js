@@ -4,6 +4,7 @@ import L from "leaflet";
 
 import RedMarker from "../../assets/red-dot.png";
 import BlueMarker from "../../assets/blue-dot.png";
+import GreenMarker from "../../assets/green-dot.png";
 import MarkerShadow from "../../assets/marker-shadow.png";
 
 function isValidCoords(latlng) {
@@ -13,6 +14,13 @@ function isValidCoords(latlng) {
   if (isNaN(lat) || isNaN(lng)) return false;
   else return true;
 }
+
+function isAccurate(accuracy) {
+  const meters = parseInt(accuracy.match(/\d+/g));
+
+  return meters <= 3000;
+}
+
 function returnCoord(latlng) {
   const lat = parseFloat(latlng.split(",")[0]);
   const lng = parseFloat(latlng.split(",")[1]);
@@ -29,6 +37,11 @@ const blueMarkerIcon = new L.Icon({
   shadowUrl: MarkerShadow
 });
 
+const greenMarkerIcon = new L.Icon({
+  iconUrl: GreenMarker,
+  shadowUrl: MarkerShadow
+});
+
 const MainPageMap = props => (
   <Map center={props.position} zoom={props.zoomLevel}>
     <TileLayer
@@ -37,9 +50,15 @@ const MainPageMap = props => (
     />
     {props.markers.map(
       (marker, index) =>
-        isValidCoords(marker.latlng) ? (
+        isValidCoords(marker.latlng) && isAccurate(marker.latlng_accuracy) ? (
           <Marker
-            icon={marker.needrescue ? redMarkerIcon : blueMarkerIcon}
+            icon={
+              marker.is_request_for_others
+                ? greenMarkerIcon
+                : marker.needrescue
+                  ? redMarkerIcon
+                  : blueMarkerIcon
+            }
             position={returnCoord(marker.latlng)}
           >
             <Popup>
