@@ -35,6 +35,7 @@ class MainPage extends React.Component {
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
+        alert(position.coords.accuracy);
         this.setState({
           position: {
             lat: position.coords.latitude,
