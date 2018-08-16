@@ -7,9 +7,10 @@ class MainPage extends React.Component {
   render() {
     return (
       <div>
+        <h1>Hey</h1>
         <MainPageMap
-          containerElement={<div style={{ height: `500px`, width: "500px" }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
+          mapElement={<div style={{ height: `100%`, width: "100%" }} />}
         />
       </div>
     );
