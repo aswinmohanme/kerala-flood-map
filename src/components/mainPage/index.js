@@ -68,7 +68,7 @@ class MainPage extends React.Component {
           <a
             href="https://keralarescue.in/request/"
             target="blank"
-            className="link bg-dark-red black pa2 br2"
+            className="link bg-black white pa2 br2"
           >
             Request Help
           </a>
