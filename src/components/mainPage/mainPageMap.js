@@ -9,9 +9,9 @@ import RedMarker from "../../assets/red-dot.png";
 import BlueMarker from "../../assets/blue-dot.png";
 import GreenMarker from "../../assets/green-dot.png";
 import MarkerShadow from "../../assets/marker-shadow.png";
-require("react-leaflet-markercluster/dist/styles.min.css");
-
 import { isValidCoords, returnCoord, isAccurate } from "./utils";
+
+require("react-leaflet-markercluster/dist/styles.min.css");
 
 const redMarkerIcon = new L.Icon({
   iconUrl: RedMarker,
@@ -51,6 +51,7 @@ const MainPageMap = props => (
                     : blueMarkerIcon
               }
               position={returnCoord(marker.latlng)}
+              key={"marker-item-" + index}
             >
               <Popup>
                 <div className="">
