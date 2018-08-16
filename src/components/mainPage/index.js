@@ -18,7 +18,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("http://myjson.com/8nd7g");
+    const resp = await fetch("/data");
     const markers = await resp.json();
 
     this.setState({ markers: markers });
@@ -28,11 +28,7 @@ class MainPage extends React.Component {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
-          position: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            acc: position.coords.accuracy
-          }
+          position: [position.coords.latitude, position.coords.longitude]
         });
       });
     } else {
@@ -72,9 +68,8 @@ class MainPage extends React.Component {
           </div>
         </div>
         <MainPageMap
-          position={this.state.position || { lat: 10, lng: 76 }}
+          position={this.state.position || [10, 76]}
           zoomLevel={this.state.position === null ? 7 : 13}
-          onMarkerClick={this.showModal}
           markers={this.state.markers}
           containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
           mapElement={<div style={{ height: `100%`, width: "100%" }} />}
