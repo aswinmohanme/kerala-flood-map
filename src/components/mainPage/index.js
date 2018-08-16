@@ -8,7 +8,6 @@ class MainPage extends React.Component {
     super(props);
 
     this.state = {
-      displayForm: false,
       position: null,
       markers: [
         {
@@ -27,8 +26,10 @@ class MainPage extends React.Component {
 
     this.render = this.render.bind(this);
     this.showModal = this.showModal.bind(this);
-    this.stuckHelp = this.stuckHelp.bind(this);
+    this.locateMe = this.locateMe.bind(this);
+  }
 
+  locateMe() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -39,6 +40,8 @@ class MainPage extends React.Component {
           }
         });
       });
+    } else {
+      alert("Error Getting Your Location");
     }
   }
 
@@ -56,22 +59,27 @@ class MainPage extends React.Component {
     };
   }
 
-  stuckHelp() {
-    this.setState({ displayForm: true });
-  }
-
   render() {
     return (
       <div>
         <div className="flex items-center justify-between pa3">
           <h3 className="">Kerala Flood Map</h3>
-          <a
-            href="https://keralarescue.in/request/"
-            target="blank"
-            className="link bg-black white pa2 br2"
-          >
-            Request Help
-          </a>
+          <div>
+            <a
+              href="#"
+              onClick={this.locateMe}
+              className="link black ba pa2 mr2 br2"
+            >
+              My Location
+            </a>
+            <a
+              href="https://keralarescue.in/request/"
+              target="blank"
+              className="link bg-black white pa2 br2"
+            >
+              Request Help
+            </a>
+          </div>
         </div>
         <MainPageMap
           position={this.state.position || { lat: 10, lng: 76 }}
