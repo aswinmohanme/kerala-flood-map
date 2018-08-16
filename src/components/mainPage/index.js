@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import MainPageMap from "./mainPageMap";
+import * as firebase from "firebase";
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -9,11 +10,23 @@ class MainPage extends React.Component {
 
     this.state = {
       position: {
-        lat: 10,
-        lng: 0
+        lat: 10.85,
+        lng: 76.27
       },
       markers: []
     };
+
+    this.markersRef = firebase.database().ref("Markers");
+    this.markersRef.on("value", snapshot => {
+      const markersRaw = snapshot.val();
+      let markers = [];
+
+      Object.keys(markersRaw).map(key => {
+        this.setState({
+          markers: [...this.state.markers, markersRaw[key]]
+        });
+      });
+    });
 
     this.getCurrentLocation = this.getCurrentLocation.bind(this);
     this.render = this.render.bind(this);
@@ -36,6 +49,10 @@ class MainPage extends React.Component {
               }
             ]
           }));
+          this.markersRef.push({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
         },
         error => {
           alert("An Error Occured Getting Your Location, Error: " + error);
