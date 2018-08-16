@@ -1,18 +1,22 @@
 import React from "react";
-import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { Map, TileLayer, Marker } from "react-leaflet";
 
-const MainPageMap = withGoogleMap(props => (
-  <GoogleMap center={props.position} zoom={props.zoomLevel}>
+const MainPageMap = props => (
+  <Map center={props.position} zoom={props.zoomLevel}>
+    <TileLayer
+      attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
     {props.markers.map((marker, index) => (
       <Marker
         onClick={props.onMarkerClick(index)}
-        position={{
-          lat: parseFloat(marker.latlng.split(",")[0]),
-          lng: parseFloat(marker.latlng.split(",")[1])
-        }}
+        position={[
+          parseFloat(marker.latlng.split(",")[0]),
+          parseFloat(marker.latlng.split(",")[1])
+        ]}
       />
     ))}
-  </GoogleMap>
-));
+  </Map>
+);
 
 export default MainPageMap;

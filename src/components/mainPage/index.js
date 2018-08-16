@@ -28,11 +28,7 @@ class MainPage extends React.Component {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
-          position: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            acc: position.coords.accuracy
-          }
+          position: [position.coords.latitude, position.coords.longitude]
         });
       });
     } else {
@@ -72,7 +68,7 @@ class MainPage extends React.Component {
           </div>
         </div>
         <MainPageMap
-          position={this.state.position || { lat: 10, lng: 76 }}
+          position={this.state.position || [10, 76]}
           zoomLevel={this.state.position === null ? 7 : 13}
           onMarkerClick={this.showModal}
           markers={this.state.markers}
