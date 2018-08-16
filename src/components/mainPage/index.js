@@ -18,7 +18,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("https://api.myjson.com/bins/ztdjg");
+    const resp = await fetch("/data");
     const markers = await resp.json();
 
     this.setState({ markers: markers });
@@ -48,7 +48,7 @@ class MainPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex items-center justify-between pa3">
+        <div className="flex items-center justify-between pl3 pr3">
           <h3 className="">Kerala Flood Map</h3>
           <div>
             <a
@@ -66,6 +66,11 @@ class MainPage extends React.Component {
               Request
             </a>
           </div>
+        </div>
+        <div className="flex items-center pl3">
+          <p className="f6 mr2">Red: Needs Rescue</p>
+          <p className="f6 mh2">Green: Request Made For Other</p>
+          <p className="f6 mh2">Blue: Generic Request</p>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
