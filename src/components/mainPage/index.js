@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Modal from "react-modal";
 
 import MainPageMap from "./mainPageMap";
-import * as firebase from "firebase";
 
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      displayForm: false,
       position: null,
       markers: [
         {
@@ -22,24 +21,21 @@ class MainPage extends React.Component {
           isMedicalEmergency: true,
           medicalReason: "Nothing Yet",
           contactNo: 8589931950
-        },
-        {
-          lat: 11,
-          lng: 76
         }
       ]
     };
 
     this.render = this.render.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.stuckHelp = this.stuckHelp.bind(this);
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
-        alert(position.coords.accuracy);
         this.setState({
           position: {
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
+            acc: position.coords.accuracy
           }
         });
       });
@@ -60,11 +56,23 @@ class MainPage extends React.Component {
     };
   }
 
+  stuckHelp() {
+    this.setState({ displayForm: true });
+  }
+
   render() {
-    console.log(this.state.position);
     return (
       <div>
-        <h3 className="pa3">Kerala Flood Map</h3>
+        <div className="flex items-center justify-between pa3">
+          <h3 className="">Kerala Flood Map</h3>
+          <a
+            href="https://keralarescue.in/request/"
+            target="blank"
+            className="link bg-dark-red black pa2 br2"
+          >
+            Request Help
+          </a>
+        </div>
         <MainPageMap
           position={this.state.position || { lat: 10, lng: 76 }}
           zoomLevel={this.state.position === null ? 7 : 13}
@@ -72,11 +80,6 @@ class MainPage extends React.Component {
           markers={this.state.markers}
           containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
           mapElement={<div style={{ height: `100%`, width: "100%" }} />}
-        />
-
-        <Modal
-          isOpen={this.state.isModalOpen}
-          onRequestClose={this.closeModal}
         />
       </div>
     );
