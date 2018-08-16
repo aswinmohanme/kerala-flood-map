@@ -18,7 +18,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("/data");
+    const resp = await fetch("http://myjson.com/8nd7g");
     const markers = await resp.json();
 
     this.setState({ markers: markers });
@@ -60,14 +60,14 @@ class MainPage extends React.Component {
               onClick={this.locateMe}
               className="link black ba pa2 mr2 br2"
             >
-              My Location
+              Near Me
             </a>
             <a
               href="https://keralarescue.in/request/"
               target="blank"
               className="link bg-black white pa2 br2"
             >
-              Request Help
+              Request
             </a>
           </div>
         </div>
