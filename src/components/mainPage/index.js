@@ -72,4 +72,34 @@ class MainPage extends React.Component {
   }
 }
 
+MainPage.propTypes = {
+  position: PropTypes.arrayOf(PropTypes.number.isRequired),
+  zoomLevel: PropTypes.number,
+  markers: PropTypes.arrayOf(PropTypes.shape({
+    map: PropTypes.shape({
+      latlng: PropTypes.string.isRequired,
+      requestee: PropTypes.string.isRequired,
+      needrescue: PropTypes.bool,
+      detailrescue: PropTypes.string,
+      is_request_for_others: PropTypes.bool,
+      location: PropTypes.string,
+      requestee_phone: PropTypes.string,
+      needfood: PropTypes.bool,
+      detailfood: PropTypes.string,
+      needcloth: PropTypes.bool,
+      detailcloth: PropTypes.string,
+      needwater: PropTypes.string,
+      detailwater: PropTypes.string,
+      needkit_util: PropTypes.string,
+      detailkit_util: PropTypes.string,
+      needtoilet: PropTypes.string,
+      detailtoilet: PropTypes.string,
+      needmed: PropTypes.string,
+      detailmed: PropTypes.string,  
+      needothers: PropTypes.string
+    })
+  }))
+};
+
+
 export default MainPage;
