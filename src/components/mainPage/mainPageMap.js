@@ -15,7 +15,27 @@ const MainPageMap = props => (
         ]}
       >
         <Popup>
-          <h1>Why</h1>
+          <div className="">
+            <h3 className="f3">{marker.requestee}</h3>
+            <p className="f6">Location : {marker.location}</p>
+            <p className="f6">Phone Number : {marker.requestee_phone}</p>
+            {marker.needfood && (
+              <p className="f6">Food : {marker.detailfood}</p>
+            )}
+            {marker.needcloth && (
+              <p className="f6">Cloth : {marker.detailcloth}</p>
+            )}
+            {marker.needwater && (
+              <p className="f6">Water : {marker.detailwater}</p>
+            )}
+            {marker.needtoilet && (
+              <p className="f6">Toilet : {marker.detailtoilet}</p>
+            )}
+            {marker.needmed && (
+              <p className="f6">Medical : {marker.detailmed}</p>
+            )}
+            <p className="f6">{marker.needothers}</p>
+          </div>
         </Popup>
       </Marker>
     ))}
