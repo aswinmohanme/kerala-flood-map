@@ -13,7 +13,6 @@ class MainPage extends React.Component {
     };
 
     this.render = this.render.bind(this);
-    this.showModal = this.showModal.bind(this);
     this.locateMe = this.locateMe.bind(this);
   }
 
@@ -34,15 +33,6 @@ class MainPage extends React.Component {
     } else {
       alert("Error Getting Your Location");
     }
-  }
-
-  showModal(id) {
-    const marker = this.state.markers[id];
-
-    return () => {
-      alert(`Name: ${marker.requestee}\nAddress: ${marker.location}
-        \nPhone No: ${marker.requestee_phone}`);
-    };
   }
 
   render() {
@@ -76,8 +66,6 @@ class MainPage extends React.Component {
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position === null ? 7 : 13}
           markers={this.state.markers}
-          containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
-          mapElement={<div style={{ height: `100%`, width: "100%" }} />}
         />
       </div>
     );
