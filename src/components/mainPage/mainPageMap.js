@@ -94,10 +94,7 @@ const MainPageMap = props => (
                   <p className="f6">Need Medical {marker.detailmed}</p>
                 )}
                 <p className="f6">{marker.needothers}</p>
-                <a
-                  href={"http://maps.google.com/maps?q=loc:" + marker.latlng}
-                  onclick="console.log('The link was clicked.'); return false"
-                >
+                <a href={"http://maps.google.com/maps?q=loc:" + marker.latlng}>
                   Navigate to the location
                 </a>
                 <p className="f6">
