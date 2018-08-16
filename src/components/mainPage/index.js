@@ -18,7 +18,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("https://api.myjson.com/bins/8nd7g");
+    const resp = await fetch("/data");
     const markers = await resp.json();
 
     this.setState({ markers: markers });
