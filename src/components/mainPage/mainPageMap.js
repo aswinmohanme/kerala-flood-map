@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, TileLayer, Marker } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 
 const MainPageMap = props => (
   <Map center={props.position} zoom={props.zoomLevel}>
@@ -9,12 +9,15 @@ const MainPageMap = props => (
     />
     {props.markers.map((marker, index) => (
       <Marker
-        onClick={props.onMarkerClick(index)}
         position={[
           parseFloat(marker.latlng.split(",")[0]),
           parseFloat(marker.latlng.split(",")[1])
         ]}
-      />
+      >
+        <Popup>
+          <h1>Why</h1>
+        </Popup>
+      </Marker>
     ))}
   </Map>
 );

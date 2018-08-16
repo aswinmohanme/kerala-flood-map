@@ -18,9 +18,10 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("http://myjson.com/8nd7g");
+    const resp = await fetch("https://api.myjson.com/bins/8pxss");
     const markers = await resp.json();
 
+    console.log(markers);
     this.setState({ markers: markers });
   }
 
@@ -70,7 +71,6 @@ class MainPage extends React.Component {
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position === null ? 7 : 13}
-          onMarkerClick={this.showModal}
           markers={this.state.markers}
           containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
           mapElement={<div style={{ height: `100%`, width: "100%" }} />}
