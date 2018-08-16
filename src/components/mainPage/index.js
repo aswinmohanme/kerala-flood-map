@@ -3,6 +3,7 @@ import React from "react";
 import MainPageMap from "./mainPageMap";
 import { isValidCoords, returnCoord, returnPosition } from "./utils";
 import { getDistance } from "geolib";
+import { SelectDistance } from "../partials/select_distance";
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -10,12 +11,14 @@ class MainPage extends React.Component {
 
     this.state = {
       position: null,
-      markers: []
+      markers: [],
+      distance_filter_selected: 10
     };
 
     this.render = this.render.bind(this);
     this.locateMe = this.locateMe.bind(this);
     this.onLocateMe = this.onLocateMe.bind(this);
+    this.onChangeDistance = this.onChangeDistance.bind(this);
   }
 
   async componentDidMount() {
@@ -25,11 +28,23 @@ class MainPage extends React.Component {
     this.setState({ all_markers: markers });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const new_filter = this.state.distance_filter_selected;
+    const old_filter = prevState.distance_filter_selected;
+    if (new_filter !== old_filter) {
+      this.locateMe();
+    }
+  }
+
+  onChangeDistance(event) {
+    this.setState({ distance_filter_selected: parseInt(event.target.value) });
+  }
+
   onLocateMe(navigator_position) {
     if (this.state.all_markers instanceof Array) {
       if (
         navigator_position instanceof Array &&
-        navigator_position.length == 2
+        navigator_position.length === 2
       ) {
         const position = returnPosition(navigator_position);
         const filtered_markers = this.state.all_markers.filter(marker => {
@@ -39,8 +54,9 @@ class MainPage extends React.Component {
               returnPosition(returnCoord(marker.latlng))
             );
 
-            return distance <= 10000;
+            return distance <= this.state.distance_filter_selected * 1000;
           }
+          return false;
         });
 
         this.setState({
@@ -75,13 +91,18 @@ class MainPage extends React.Component {
         <div className="flex items-center justify-between pl3 pr3">
           <h3 className="">Kerala Flood Map</h3>
           <div>
-            <a
-              href="#"
+            <SelectDistance
+              onChangeDistance={this.onChangeDistance}
+              distance_selected={this.state.distance_filter_selected}
+            />
+
+            <button
               onClick={this.locateMe}
               className="link black ba pa2 mr2 br2"
             >
               Near Me
-            </a>
+            </button>
+
             <a
               href="https://keralarescue.in/request/"
               target="blank"
