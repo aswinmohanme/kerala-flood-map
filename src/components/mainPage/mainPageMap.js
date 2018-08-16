@@ -2,7 +2,9 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
-import RedMarker from "../../assets/green-dot.png";
+import RedMarker from "../../assets/red-dot.png";
+import BlueMarker from "../../assets/blue-dot.png";
+import MarkerShadow from "../../assets/marker-shadow.png";
 
 function isValidCoords(latlng) {
   const lat = parseFloat(latlng.split(",")[0]);
@@ -18,11 +20,13 @@ function returnCoord(latlng) {
 }
 
 const redMarkerIcon = new L.Icon({
-  iconUrl: require("../../assets/red-dot.png")
+  iconUrl: RedMarker,
+  shadowUrl: MarkerShadow
 });
 
 const blueMarkerIcon = new L.Icon({
-  iconUrl: require("../../assets/blue-dot.png")
+  iconUrl: BlueMarker,
+  shadowUrl: MarkerShadow
 });
 
 const MainPageMap = props => (
