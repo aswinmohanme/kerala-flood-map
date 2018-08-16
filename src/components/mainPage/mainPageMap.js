@@ -2,7 +2,7 @@ import React from "react";
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 const MainPageMap = withGoogleMap(props => (
-  <GoogleMap defaultCenter={{ lat: 10, lng: 76 }} defaultZoom={7}>
+  <GoogleMap center={props.position} zoom={props.zoomLevel}>
     {props.markers.map((marker, index) => (
       <Marker
         onClick={props.onMarkerClick(index)}

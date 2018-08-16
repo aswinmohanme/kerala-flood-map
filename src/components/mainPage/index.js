@@ -10,6 +10,7 @@ class MainPage extends React.Component {
     super(props);
 
     this.state = {
+      position: null,
       markers: [
         {
           lat: 10,
@@ -31,6 +32,17 @@ class MainPage extends React.Component {
 
     this.render = this.render.bind(this);
     this.showModal = this.showModal.bind(this);
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          position: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        });
+      });
+    }
   }
 
   showModal(id) {
@@ -48,11 +60,13 @@ class MainPage extends React.Component {
   }
 
   render() {
-    console.log(this.state.markers);
+    console.log(this.state.position);
     return (
       <div>
         <h3 className="pa3">Kerala Flood Map</h3>
         <MainPageMap
+          position={this.state.position || { lat: 10, lng: 76 }}
+          zoomLevel={this.state.position === null ? 7 : 13}
           onMarkerClick={this.showModal}
           markers={this.state.markers}
           containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
