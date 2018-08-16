@@ -9,24 +9,19 @@ class MainPage extends React.Component {
 
     this.state = {
       position: null,
-      markers: [
-        {
-          lat: 10,
-          lng: 76,
-          name: "Aswin Mohan",
-          address:
-            "Elayasseril Thundil, Para JN, Muthukatturkara, Nooranad P.O",
-          landmark: "Para JN",
-          isMedicalEmergency: true,
-          medicalReason: "Nothing Yet",
-          contactNo: 8589931950
-        }
-      ]
+      markers: []
     };
 
     this.render = this.render.bind(this);
     this.showModal = this.showModal.bind(this);
     this.locateMe = this.locateMe.bind(this);
+  }
+
+  async componentDidMount() {
+    const resp = await fetch("https://api.myjson.com/bins/8nd7g");
+    const markers = await resp.json();
+
+    this.setState({ markers: markers });
   }
 
   locateMe() {
@@ -49,13 +44,8 @@ class MainPage extends React.Component {
     const marker = this.state.markers[id];
 
     return () => {
-      alert(
-        `Name: ${marker.name}\nLandMark: ${marker.landmark}\nAddress: ${
-          marker.address
-        }\nPhone No: ${marker.contactNo}\nMedical Reason: ${
-          marker.medicalReason
-        }`
-      );
+      alert(`Name: ${marker.requestee}\nAddress: ${marker.location}
+        \nPhone No: ${marker.requestee_phone}`);
     };
   }
 
