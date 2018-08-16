@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Modal from "react-modal";
 
 import MainPageMap from "./mainPageMap";
 import * as firebase from "firebase";
@@ -9,79 +10,58 @@ class MainPage extends React.Component {
     super(props);
 
     this.state = {
-      position: {
-        lat: 10.85,
-        lng: 76.27
-      },
-      markers: []
+      markers: [
+        {
+          lat: 10,
+          lng: 76,
+          name: "Aswin Mohan",
+          address:
+            "Elayasseril Thundil, Para JN, Muthukatturkara, Nooranad P.O",
+          landmark: "Para JN",
+          isMedicalEmergency: true,
+          medicalReason: "Nothing Yet",
+          contactNo: 8589931950
+        },
+        {
+          lat: 11,
+          lng: 76
+        }
+      ]
     };
 
-    this.markersRef = firebase.database().ref("Markers");
-    this.markersRef.on("value", snapshot => {
-      const markersRaw = snapshot.val();
-      let markers = [];
-
-      Object.keys(markersRaw).map(key => {
-        this.setState({
-          markers: [...this.state.markers, markersRaw[key]]
-        });
-      });
-    });
-
-    this.getCurrentLocation = this.getCurrentLocation.bind(this);
     this.render = this.render.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
 
-  getCurrentLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          this.setState(prevState => ({
-            position: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            },
-            markers: [
-              ...prevState.markers,
-              {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              }
-            ]
-          }));
-          this.markersRef.push({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        error => {
-          alert("An Error Occured Getting Your Location, Error: " + error);
-        }
+  showModal(id) {
+    const marker = this.state.markers[id];
+
+    return () => {
+      alert(
+        `Name: ${marker.name}\nLandMark: ${marker.landmark}\nAddress: ${
+          marker.address
+        }\nPhone No: ${marker.contactNo}\nMedical Reason: ${
+          marker.medicalReason
+        }`
       );
-    } else {
-      alert("Location is Not Supported");
-    }
+    };
   }
 
   render() {
     console.log(this.state.markers);
     return (
       <div>
-        <div className="pa3 flex items-center justify-between">
-          <h3 className="">Kerala Flood Map</h3>
-          <a
-            onClick={this.getCurrentLocation}
-            href="#"
-            className="black bg-red link pa2 br2"
-          >
-            I'm Stuck
-          </a>
-        </div>
+        <h3 className="pa3">Kerala Flood Map</h3>
         <MainPageMap
-          position={this.state.position}
+          onMarkerClick={this.showModal}
           markers={this.state.markers}
           containerElement={<div style={{ height: "100vh", width: "100vw" }} />}
           mapElement={<div style={{ height: `100%`, width: "100%" }} />}
+        />
+
+        <Modal
+          isOpen={this.state.isModalOpen}
+          onRequestClose={this.closeModal}
         />
       </div>
     );
