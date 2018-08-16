@@ -1,31 +1,14 @@
 import React from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import PropTypes from "prop-types";
 
 import RedMarker from "../../assets/red-dot.png";
 import BlueMarker from "../../assets/blue-dot.png";
 import GreenMarker from "../../assets/green-dot.png";
 import MarkerShadow from "../../assets/marker-shadow.png";
 
-function isValidCoords(latlng) {
-  const lat = parseFloat(latlng.split(",")[0]);
-  const lng = parseFloat(latlng.split(",")[1]);
-
-  if (isNaN(lat) || isNaN(lng)) return false;
-  else return true;
-}
-
-function isAccurate(accuracy) {
-  const meters = parseInt(accuracy.match(/\d+/g));
-
-  return meters <= 3000;
-}
-
-function returnCoord(latlng) {
-  const lat = parseFloat(latlng.split(",")[0]);
-  const lng = parseFloat(latlng.split(",")[1]);
-  return [lat, lng];
-}
+import { isValidCoords, returnCoord, isAccurate } from "./utils";
 
 const redMarkerIcon = new L.Icon({
   iconUrl: RedMarker,
@@ -60,6 +43,7 @@ const MainPageMap = props => (
                   : blueMarkerIcon
             }
             position={returnCoord(marker.latlng)}
+            key={"marker-item-" + index}
           >
             <Popup>
               <div className="">
@@ -107,5 +91,36 @@ const MainPageMap = props => (
     )}
   </Map>
 );
+
+MainPageMap.propTypes = {
+  position: PropTypes.arrayOf(PropTypes.number.isRequired),
+  zoomLevel: PropTypes.number,
+  markers: PropTypes.arrayOf(
+    PropTypes.shape({
+      map: PropTypes.shape({
+        latlng: PropTypes.string.isRequired,
+        requestee: PropTypes.string.isRequired,
+        needrescue: PropTypes.bool,
+        detailrescue: PropTypes.string,
+        is_request_for_others: PropTypes.bool,
+        location: PropTypes.string,
+        requestee_phone: PropTypes.string,
+        needfood: PropTypes.bool,
+        detailfood: PropTypes.string,
+        needcloth: PropTypes.bool,
+        detailcloth: PropTypes.string,
+        needwater: PropTypes.string,
+        detailwater: PropTypes.string,
+        needkit_util: PropTypes.string,
+        detailkit_util: PropTypes.string,
+        needtoilet: PropTypes.string,
+        detailtoilet: PropTypes.string,
+        needmed: PropTypes.string,
+        detailmed: PropTypes.string,
+        needothers: PropTypes.string
+      })
+    })
+  )
+};
 
 export default MainPageMap;
