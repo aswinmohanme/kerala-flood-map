@@ -14,7 +14,8 @@ class MainPage extends React.Component {
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
-      genericReq: false
+      genericReq: false,
+      zoom: 7
     };
 
     this.render = this.render.bind(this);
@@ -22,6 +23,16 @@ class MainPage extends React.Component {
     this.filterRescue = this.filterRescue.bind(this);
     this.genericReqGroup = this.genericReqGroup.bind(this);
     this.othersGroup = this.othersGroup.bind(this);
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          position: [position.coords.latitude, position.coords.longitude]
+        });
+      });
+    } else {
+      alert("Error Getting Your Location");
+    }
   }
 
   async componentDidMount() {
@@ -71,10 +82,16 @@ class MainPage extends React.Component {
   }
 
   locateMe() {
+    if (this.state.zoom >= 12) {
+      this.setState({ zoom: 7 });
+      return;
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
-          position: [position.coords.latitude, position.coords.longitude]
+          position: [position.coords.latitude, position.coords.longitude],
+          zoom: 13
         });
       });
     } else {
@@ -89,11 +106,24 @@ class MainPage extends React.Component {
           <h3 className="">Kerala Flood Map</h3>
           <div>
             <a
+              href={
+                this.state.position
+                  ? `https://www.microid.in/keralaflood/#12/${
+                      this.state.position[0]
+                    }/${this.state.position[1]}`
+                  : "https://www.microid.in/keralaflood/"
+              }
+              target="blank"
+              className="link black ba pa2 mr2 br2"
+            >
+              Check Roads
+            </a>
+            <a
               href="#"
               onClick={this.locateMe}
               className="link black ba pa2 mr2 br2"
             >
-              Near Me
+              Locate Me
             </a>
             <a
               href="https://keralarescue.in/request/"
@@ -151,6 +181,8 @@ class MainPage extends React.Component {
                   ? this.state.markersReqByOthers
                   : this.state.markers
           }
+          zoomLevel={this.state.zoom}
+          markers={this.state.markers}
         />
       </div>
     );
@@ -183,7 +215,8 @@ MainPage.propTypes = {
         needmed: PropTypes.string,
         detailmed: PropTypes.string,
         needothers: PropTypes.string,
-        dateadded: PropTypes.string
+        dateadded: PropTypes.string,
+        needothers: PropTypes.string
       })
     })
   )
