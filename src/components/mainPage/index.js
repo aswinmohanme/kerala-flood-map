@@ -10,30 +10,25 @@ class MainPage extends React.Component {
       position: null,
       markers: [],
       markersNeedRescue: [],
-      markersGeneric: [],
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
-      genericReq: false
+      genericReq: false,
+      allReq: false
     };
 
     this.render = this.render.bind(this);
     this.locateMe = this.locateMe.bind(this);
     this.filterRescue = this.filterRescue.bind(this);
-    this.genericReqGroup = this.genericReqGroup.bind(this);
     this.othersGroup = this.othersGroup.bind(this);
+    this.allReqGroup = this.allReqGroup.bind(this);
   }
 
   async componentDidMount() {
     const resp = await fetch("/data");
     const markers = await resp.json();
-
     const needRescueGroup = markers.filter(
-      marker => !marker.is_request_for_others && marker.needrescue
-    );
-
-    const genericGroupValue = markers.filter(
-      marker => !marker.is_request_for_others && !marker.needrescue
+      marker => !marker.is_request_for_others
     );
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
@@ -41,7 +36,6 @@ class MainPage extends React.Component {
     this.setState({
       markers: markers,
       markersNeedRescue: needRescueGroup,
-      markersGeneric: genericGroupValue,
       markersReqByOthers: reqByOthers
     });
   }
@@ -49,16 +43,8 @@ class MainPage extends React.Component {
   filterRescue() {
     this.setState(prevState => ({
       needsRescue: !prevState.needsRescue,
-      genericReq: false,
-      others: false
-    }));
-  }
-
-  genericReqGroup() {
-    this.setState(prevState => ({
-      genericReq: !prevState.genericReq,
-      needsRescue: false,
-      others: false
+      others: false,
+      allReq: false
     }));
   }
 
@@ -66,7 +52,15 @@ class MainPage extends React.Component {
     this.setState(prevState => ({
       others: !prevState.others,
       needsRescue: false,
-      genericReq: false
+      allReq: false
+    }));
+  }
+
+  allReqGroup() {
+    this.setState(prevState => ({
+      allReq: !prevState.allReq,
+      needsRescue: false,
+      others: false
     }));
   }
 
@@ -118,17 +112,6 @@ class MainPage extends React.Component {
           </a>
           <a
             href="#"
-            onClick={this.genericReqGroup}
-            className={
-              !this.state.genericReq
-                ? "link blue ba pa2 mr2 br2"
-                : "link bg-blue white pa2 mr2 br2"
-            }
-          >
-            Show: Generic Request
-          </a>
-          <a
-            href="#"
             onClick={this.othersGroup}
             className={
               !this.state.others
@@ -138,6 +121,17 @@ class MainPage extends React.Component {
           >
             Show: Request Made For Other
           </a>
+          <a
+            href="#"
+            onClick={this.allReqGroup}
+            className={
+              !this.state.allReq
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            Show: All Request
+          </a>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
@@ -145,11 +139,9 @@ class MainPage extends React.Component {
           markers={
             this.state.needsRescue
               ? this.state.markersNeedRescue
-              : this.state.genericReq
-                ? this.state.markersGeneric
-                : this.state.others
-                  ? this.state.markersReqByOthers
-                  : this.state.markers
+              : this.state.others
+                ? this.state.markersReqByOthers
+                : this.state.markers
           }
         />
       </div>
