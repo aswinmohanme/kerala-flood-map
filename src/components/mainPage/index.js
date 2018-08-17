@@ -99,7 +99,7 @@ class MainPage extends React.Component {
       <div>
         <div className="flex items-center justify-between pl3 pr3">
           <h3 className="">Kerala Flood Map</h3>
-          <div>
+          <div className="main-nav">
             <a
               href={
                 this.state.position
@@ -129,7 +129,7 @@ class MainPage extends React.Component {
             </a>
           </div>
         </div>
-        <div className="flex items-center pl3">
+        <div className="flex items-center pl3 pb2">
           <a
             href="#"
             onClick={this.filterRescue}
