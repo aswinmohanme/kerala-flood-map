@@ -36,7 +36,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("/data");
+    const resp = await fetch("https://keralarescue.in/data");
     const markers = await resp.json();
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
@@ -100,7 +100,7 @@ class MainPage extends React.Component {
         <div className="flex items-center justify-between pl3 pr3">
           <h3 className="">Kerala Flood Map</h3>
           <div>
-            <a
+            <button
               href={
                 this.state.position
                   ? `https://www.microid.in/keralaflood/#12/${
@@ -112,25 +112,25 @@ class MainPage extends React.Component {
               className="link black ba pa2 mr2 br2"
             >
               Check Roads
-            </a>
-            <a
+            </button>
+            <button
               href="#"
               onClick={this.locateMe}
               className="link black ba pa2 mr2 br2"
             >
               Locate Me
-            </a>
-            <a
+            </button>
+            <button
               href="https://keralarescue.in/request/"
               target="blank"
               className="link bg-black white pa2 br2"
             >
               Request
-            </a>
+            </button>
           </div>
         </div>
         <div className="flex items-center pl3">
-          <a
+          <button
             href="#"
             onClick={this.filterRescue}
             className={
@@ -140,8 +140,8 @@ class MainPage extends React.Component {
             }
           >
             Show: Rescue needed
-          </a>
-          <a
+          </button>
+          <button
             href="#"
             onClick={this.othersGroup}
             className={
@@ -151,8 +151,8 @@ class MainPage extends React.Component {
             }
           >
             Show: Request Made For Other
-          </a>
-          <a
+          </button>
+          <button
             href="#"
             onClick={this.allReqGroup}
             className={
@@ -162,7 +162,7 @@ class MainPage extends React.Component {
             }
           >
             Show: All Request
-          </a>
+          </button>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
