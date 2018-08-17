@@ -41,6 +41,7 @@ class MainPage extends React.Component {
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
+    console.log(needRescueGroup);
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
 
@@ -165,7 +166,7 @@ class MainPage extends React.Component {
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
-          zoomLevel={this.state.position === null ? 7 : 13}
+          zoomLevel={this.state.zoom}
           markers={
             this.state.needsRescue
               ? this.state.markersNeedRescue
@@ -173,8 +174,6 @@ class MainPage extends React.Component {
                 ? this.state.markersReqByOthers
                 : this.state.markers
           }
-          zoomLevel={this.state.zoom}
-          markers={this.state.markers}
         />
       </div>
     );
