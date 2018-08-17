@@ -36,6 +36,7 @@ const districts = [
   "tcr",
   "wnd"
 ];
+
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +69,6 @@ class MainPage extends React.Component {
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
-    console.log(needRescueGroup);
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
 
