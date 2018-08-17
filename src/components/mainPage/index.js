@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import MainPageMap from "./mainPageMap";
 
 class MainPage extends React.Component {
@@ -9,12 +8,21 @@ class MainPage extends React.Component {
 
     this.state = {
       position: null,
-      zoom: 7,
-      markers: []
+      markers: [],
+      markersNeedRescue: [],
+      markersReqByOthers: [],
+      needsRescue: true,
+      others: false,
+      genericReq: false,
+      allReq: false,
+      zoom: 7
     };
 
     this.render = this.render.bind(this);
     this.locateMe = this.locateMe.bind(this);
+    this.filterRescue = this.filterRescue.bind(this);
+    this.othersGroup = this.othersGroup.bind(this);
+    this.allReqGroup = this.allReqGroup.bind(this);
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -30,11 +38,50 @@ class MainPage extends React.Component {
   async componentDidMount() {
     const resp = await fetch("/data");
     const markers = await resp.json();
+    const needRescueGroup = markers.filter(
+      marker => !marker.is_request_for_others
+    );
+    console.log(needRescueGroup);
 
-    this.setState({ markers: markers });
+    const reqByOthers = markers.filter(marker => marker.is_request_for_others);
+
+    this.setState({
+      markers: markers,
+      markersNeedRescue: needRescueGroup,
+      markersReqByOthers: reqByOthers
+    });
+  }
+
+  filterRescue() {
+    this.setState(prevState => ({
+      needsRescue: !prevState.needsRescue,
+      others: false,
+      allReq: false
+    }));
+  }
+
+  othersGroup() {
+    this.setState(prevState => ({
+      others: !prevState.others,
+      needsRescue: false,
+      allReq: false
+    }));
+  }
+
+  allReqGroup() {
+    this.setState(prevState => ({
+      allReq: !prevState.allReq,
+      needsRescue: false,
+      others: false
+    }));
   }
 
   locateMe() {
+    if (this.state.zoom >= 12) {
+      this.setState({ zoom: 7 });
+      return;
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -83,14 +130,50 @@ class MainPage extends React.Component {
           </div>
         </div>
         <div className="flex items-center pl3">
-          <p className="f6 mr2">Red: Needs Rescue</p>
-          <p className="f6 mh2">Green: Request Made For Other</p>
-          <p className="f6 mh2">Blue: Generic Request</p>
+          <a
+            href="#"
+            onClick={this.filterRescue}
+            className={
+              !this.state.needsRescue
+                ? "link red ba pa2 mr2 br2"
+                : "link bg-red white pa2 mr2 br2"
+            }
+          >
+            Show: Rescue needed
+          </a>
+          <a
+            href="#"
+            onClick={this.othersGroup}
+            className={
+              !this.state.others
+                ? "link green ba pa2 mr2 br2"
+                : "link bg-green white pa2 mr2 br2"
+            }
+          >
+            Show: Request Made For Other
+          </a>
+          <a
+            href="#"
+            onClick={this.allReqGroup}
+            className={
+              !this.state.allReq
+                ? "link black ba pa2 mr2 br2"
+                : "link bg-black white pa2 mr2 br2"
+            }
+          >
+            Show: All Request
+          </a>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.zoom}
-          markers={this.state.markers}
+          markers={
+            this.state.needsRescue
+              ? this.state.markersNeedRescue
+              : this.state.others
+                ? this.state.markersReqByOthers
+                : this.state.markers
+          }
         />
       </div>
     );
@@ -122,6 +205,8 @@ MainPage.propTypes = {
         detailtoilet: PropTypes.string,
         needmed: PropTypes.string,
         detailmed: PropTypes.string,
+        needothers: PropTypes.string,
+        dateadded: PropTypes.string,
         needothers: PropTypes.string
       })
     })
