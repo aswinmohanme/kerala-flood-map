@@ -62,11 +62,12 @@ class MainPage extends React.Component {
     const markers = [];
     await Promise.all(
       districts.map(d =>
-        fetch(`https://keralarescue.in/data?district=${d}`)
+        fetch(`/data?district=${d}`)
           .then(res => markers.push(res.json()))
           .catch(ex => console.log(ex))
       )
     );
+
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
