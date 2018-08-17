@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import L from "leaflet";
 
@@ -60,18 +60,14 @@ const MainPageMap = props => (
       {props.markers.map(
         (marker, index) =>
           isValidCoords(marker.latlng) && isAccurate(marker.latlng_accuracy) ? (
-            <Marker
-              icon={
-                marker.is_request_for_others
-                  ? greenMarkerIcon
-                  : marker.needrescue
-                    ? redMarkerIcon
-                    : blueMarkerIcon
-              }
+            <CircleMarker
+              radius={25}
+              fill="true"
+              color="red"
               position={returnCoord(marker.latlng)}
             >
               <MarkerPopup marker={marker} />
-            </Marker>
+            </CircleMarker>
           ) : null
       )}
     </MarkerClusterGroup>
