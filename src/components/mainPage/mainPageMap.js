@@ -56,6 +56,10 @@ const MainPageMap = props => (
       attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
+    <TileLayer
+      attribution=""
+      url="https://api.tiles.mapbox.com/v4/demisane.dffgs0yv/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2lzaG9ydjA2IiwiYSI6ImNqa3dpYzR2djB6YmEzdnFuNXlzcnloMDEifQ.bpeBUY001h2018QHS30QzQ"
+    />
     <MarkerClusterGroup spiderfyOnMaxZoom={false} disableClusteringAtZoom={12}>
       {props.markers.map(
         (marker, index) =>
