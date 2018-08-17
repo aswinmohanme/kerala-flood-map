@@ -10,27 +10,63 @@ class MainPage extends React.Component {
       position: null,
       markers: [],
       markersNeedRescue: [],
-      needsRescue: false
+      markersGeneric: [],
+      markersReqByOthers: [],
+      needsRescue: true,
+      others: false,
+      genericReq: false
     };
 
     this.render = this.render.bind(this);
     this.locateMe = this.locateMe.bind(this);
     this.filterRescue = this.filterRescue.bind(this);
+    this.genericReqGroup = this.genericReqGroup.bind(this);
+    this.othersGroup = this.othersGroup.bind(this);
   }
 
   async componentDidMount() {
     const resp = await fetch("/data");
     const markers = await resp.json();
-    this.setState({ markers: markers });
+
+    const needRescueGroup = markers.filter(
+      marker => !marker.is_request_for_others && marker.needrescue
+    );
+
+    const genericGroupValue = markers.filter(
+      marker => !marker.is_request_for_others && !marker.needrescue
+    );
+
+    const reqByOthers = markers.filter(marker => marker.is_request_for_others);
+
+    this.setState({
+      markers: markers,
+      markersNeedRescue: needRescueGroup,
+      markersGeneric: genericGroupValue,
+      markersReqByOthers: reqByOthers
+    });
   }
 
   filterRescue() {
-    const needRescueGroup = this.state.markers.filter(
-      marker => marker.needrescue === true
-    );
     this.setState(prevState => ({
       needsRescue: !prevState.needsRescue,
-      markersNeedRescue: needRescueGroup
+      genericReq: false,
+      others: false
+    }));
+  }
+
+  genericReqGroup() {
+    this.setState(prevState => ({
+      genericReq: !prevState.genericReq,
+      needsRescue: false,
+      others: false
+    }));
+  }
+
+  othersGroup() {
+    this.setState(prevState => ({
+      others: !prevState.others,
+      needsRescue: false,
+      genericReq: false
     }));
   }
 
@@ -78,18 +114,42 @@ class MainPage extends React.Component {
                 : "link bg-red white pa2 mr2 br2"
             }
           >
-            Red: Needs Rescue
+            Show: Rescue needed
           </a>
-          <p className="f6 mh2">Green: Request Made For Other</p>
-          <p className="f6 mh2">Blue: Generic Request</p>
+          <a
+            href="#"
+            onClick={this.genericReqGroup}
+            className={
+              !this.state.genericReq
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            Show: Generic Request
+          </a>
+          <a
+            href="#"
+            onClick={this.othersGroup}
+            className={
+              !this.state.others
+                ? "link green ba pa2 mr2 br2"
+                : "link bg-green white pa2 mr2 br2"
+            }
+          >
+            Show: Request Made For Other
+          </a>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position === null ? 7 : 13}
           markers={
-            !this.state.needsRescue
-              ? this.state.markers
-              : this.state.markersNeedRescue
+            this.state.needsRescue
+              ? this.state.markersNeedRescue
+              : this.state.genericReq
+                ? this.state.markersGeneric
+                : this.state.others
+                  ? this.state.markersReqByOthers
+                  : this.state.markers
           }
         />
       </div>
