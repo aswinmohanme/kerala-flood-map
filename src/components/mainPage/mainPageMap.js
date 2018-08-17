@@ -46,6 +46,18 @@ const greenMarkerIcon = new L.Icon({
   shadowUrl: MarkerShadow
 });
 
+const getMarker = ({ is_request_for_others, needrescue }) => {
+  if (is_request_for_others) {
+    return greenMarkerIcon;
+  }
+
+  if (needrescue) {
+    return redMarkerIcon;
+  }
+
+  return blueMarkerIcon;
+};
+
 const MainPageMap = props => (
   <Map
     className="markercluster-map"
@@ -61,13 +73,7 @@ const MainPageMap = props => (
         (marker, index) =>
           isValidCoords(marker.latlng) && isAccurate(marker.latlng_accuracy) ? (
             <Marker
-              icon={
-                marker.is_request_for_others
-                  ? greenMarkerIcon
-                  : marker.needrescue
-                    ? redMarkerIcon
-                    : blueMarkerIcon
-              }
+              icon={getMarker(marker)}
               position={returnCoord(marker.latlng)}
             >
               <MarkerPopup marker={marker} />
