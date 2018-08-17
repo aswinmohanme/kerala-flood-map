@@ -60,13 +60,10 @@ class MainPage extends React.Component {
 
   async componentDidMount() {
     const markers = [];
-    await Promise.all(
-      districts.map(d =>
-        fetch(`/data?district=${d}`)
-          .then(res => markers.push(res.json()))
-          .catch(ex => console.log(ex))
-      )
-    );
+    for (const district of districts) {
+      const resp = await fetch(`/data?district=${district}`);
+      markers.push(resp.json());
+    }
 
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
