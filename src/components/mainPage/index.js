@@ -122,7 +122,8 @@ MainPage.propTypes = {
         detailtoilet: PropTypes.string,
         needmed: PropTypes.string,
         detailmed: PropTypes.string,
-        needothers: PropTypes.string
+        needothers: PropTypes.string,
+        dateadded: PropTypes.string
       })
     })
   )

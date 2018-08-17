@@ -112,6 +112,7 @@ const MainPageMap = props => (
                   <p className="f6">
                     Location accuracy: {marker.latlng_accuracy}
                   </p>
+                  <p> Updated at: {marker.dateadded.replace("T", " Time: ")}</p>
                 </div>
               </Popup>
             </Marker>
