@@ -15,3 +15,10 @@ body {
 .navbar {
   margin-bottom: 0px;
 }
+
+@media (max-width: 481px) {
+  .main-nav {
+    width: 100%;
+    display: flex;
+  }
+}

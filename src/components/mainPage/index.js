@@ -14,8 +14,7 @@ class MainPage extends React.Component {
       needsRescue: true,
       others: false,
       genericReq: false,
-      allReq: false,
-      zoom: 7
+      allReq: false
     };
 
     this.render = this.render.bind(this);
@@ -23,16 +22,6 @@ class MainPage extends React.Component {
     this.filterRescue = this.filterRescue.bind(this);
     this.othersGroup = this.othersGroup.bind(this);
     this.allReqGroup = this.allReqGroup.bind(this);
-
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          position: [position.coords.latitude, position.coords.longitude]
-        });
-      });
-    } else {
-      alert("Error Getting Your Location");
-    }
   }
 
   async componentDidMount() {
@@ -77,16 +66,10 @@ class MainPage extends React.Component {
   }
 
   locateMe() {
-    if (this.state.zoom >= 12) {
-      this.setState({ zoom: 7 });
-      return;
-    }
-
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
-          position: [position.coords.latitude, position.coords.longitude],
-          zoom: 13
+          position: [position.coords.latitude, position.coords.longitude]
         });
       });
     } else {
@@ -194,7 +177,7 @@ class MainPage extends React.Component {
         </nav>
         <MainPageMap
           position={this.state.position || [10, 76]}
-          zoomLevel={this.state.zoom}
+          zoomLevel={this.state.position ? 13 : 7}
           markers={
             this.state.needsRescue
               ? this.state.markersNeedRescue
