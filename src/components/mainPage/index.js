@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
-
+import gData from "./newData";
 const getMarker = ({
   needsRescue,
   markersNeedRescue,
@@ -31,7 +31,8 @@ class MainPage extends React.Component {
       needsRescue: true,
       others: false,
       zoom: 7,
-      allReq: false
+      allReq: false,
+      gMarkers: []
     };
     this.render = this.render.bind(this);
     this.filterRescue = this.filterRescue.bind(this);
@@ -47,9 +48,13 @@ class MainPage extends React.Component {
     );
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
+    const CollectionCenters = gData.filter(
+      key => key.Type_of_Service === "Relief Material Collection"
+    );
 
     this.setState({
       markers: markers,
+      gMarkers: CollectionCenters,
       markersNeedRescue: needRescueGroup,
       markersReqByOthers: reqByOthers
     });
@@ -170,6 +175,7 @@ class MainPage extends React.Component {
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position ? 13 : 7}
           markers={getMarker(this.state)}
+          gMarkers={this.state.gMarkers}
         />
       </div>
     );
@@ -182,9 +188,9 @@ MainPage.propTypes = {
   markers: PropTypes.arrayOf(
     PropTypes.shape({
       map: PropTypes.shape({
-        latlng: PropTypes.string.isRequired,
-        requestee: PropTypes.string.isRequired,
-        needrescue: PropTypes.bool,
+        Name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        Contact_Name: PropTypes.bool,
         detailrescue: PropTypes.string,
         is_request_for_others: PropTypes.bool,
         location: PropTypes.string,
@@ -204,6 +210,18 @@ MainPage.propTypes = {
         needothers: PropTypes.string,
         dateadded: PropTypes.string,
         needothers: PropTypes.string
+      })
+    })
+  ),
+  gMarkers: PropTypes.arrayOf(
+    PropTypes.shape({
+      map: PropTypes.shape({
+        Name: PropTypes.string,
+        Contact_Name: PropTypes.string,
+        Contact_Number: PropTypes.string,
+        Type_of_Service: PropTypes.string,
+        Details: PropTypes.string,
+        geometry: PropTypes.string
       })
     })
   )

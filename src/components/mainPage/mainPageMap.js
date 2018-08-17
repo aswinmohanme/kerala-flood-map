@@ -6,9 +6,11 @@ import L from "leaflet";
 import RedMarker from "../../assets/red-dot.png";
 import BlueMarker from "../../assets/blue-dot.png";
 import GreenMarker from "../../assets/green-dot.png";
+import BlackMarker from "../../assets/black-dot.png";
 import MarkerShadow from "../../assets/marker-shadow.png";
 
 import MarkerPopup from "./markerPopup";
+import MarkerPopupOther from "./markerPopupOther";
 require("react-leaflet-markercluster/dist/styles.min.css");
 
 function isValidCoords(latlng) {
@@ -46,6 +48,11 @@ const greenMarkerIcon = new L.Icon({
   shadowUrl: MarkerShadow
 });
 
+const BlackMarkerIcon = new L.Icon({
+  iconUrl: BlackMarker,
+  shadowUrl: MarkerShadow
+});
+
 const getMarker = ({ is_request_for_others, needrescue }) => {
   if (is_request_for_others) {
     return greenMarkerIcon;
@@ -68,6 +75,17 @@ const MainPageMap = props => (
       attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
+    {props.gMarkers.map(
+      (gMarkers, index) =>
+        isValidCoords(gMarkers.geometry) ? (
+          <Marker
+            icon={BlackMarkerIcon}
+            position={returnCoord(gMarkers.geometry)}
+          >
+            <MarkerPopupOther marker={gMarkers} />
+          </Marker>
+        ) : null
+    )}
     <MarkerClusterGroup spiderfyOnMaxZoom={false} disableClusteringAtZoom={12}>
       {props.markers.map(
         (marker, index) =>

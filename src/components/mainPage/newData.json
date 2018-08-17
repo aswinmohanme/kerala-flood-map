@@ -1,0 +1,43 @@
+[
+  {
+    "Name": "Relief Material Collection at NSS College,Pandalam",
+    "Contact_Name": "Haritha",
+    "Contact_Number": "9746031425",
+    "Type_of_Service": "Relief Material Collection",
+    "Details": "10 am to 12 pm Friday ",
+    "geometry": "9.17524,76.63784"
+  },
+
+  {
+    "Name": "Relief Collection at Kaloor . Stadium",
+    "Contact_Name": "KBFC Team",
+    "Contact_Number": "7558928607, 8921328763",
+    "Type_of_Service": "Relief Material Collection",
+    "Details": "Relief Material Collection Centre opened by the KBFC - people willing to donate can drop off materials at Gate Z1",
+    "geometry": "9.99718,76.30067"
+  },
+  {
+    "Name": "Relief Supplies at CUSAT",
+    "Contact_Name": "CUSAT Kalamassery Campus",
+    "Contact_Number": "9447508345, 9447546725, 7403626324",
+    "Type_of_Service": "Relief Material Collection",
+    "geometry": "10.04433,76.32823"
+  },
+  {
+    "Name": "Relief Material Collection near Civil Station",
+    "Contact_Name": "Savad",
+    "Contact_Number": "+919020265594",
+    "Type_of_Service": "Relief Material Collection",
+    "Details": "Supplies for Palakkad Zone",
+    "geometry": "10.76135,76.65802"
+  },
+
+  {
+    "Name": "Relief Material Collection near Theni",
+    "Contact_Name": "Jeeva or Sateesh",
+    "Contact_Number": "+919884179234, +919629260033",
+    "Type_of_Service": "Relief Material Collection",
+    "Details": "Planning multiple relief runs to Kerala",
+    "geometry": "10.01036,77.47681"
+  }
+]
