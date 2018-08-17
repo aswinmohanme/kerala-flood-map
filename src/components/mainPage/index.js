@@ -25,7 +25,7 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("https://keralarescue.in/data");
+    const resp = await fetch("/data");
     const markers = await resp.json();
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
