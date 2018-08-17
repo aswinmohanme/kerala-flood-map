@@ -56,7 +56,7 @@ const MainPageMap = props => (
       attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    <MarkerClusterGroup>
+    <MarkerClusterGroup spiderfyOnMaxZoom={false} disableClusteringAtZoom={12}>
       {props.markers.map(
         (marker, index) =>
           isValidCoords(marker.latlng) && isAccurate(marker.latlng_accuracy) ? (
