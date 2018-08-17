@@ -96,73 +96,101 @@ class MainPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="flex items-center justify-between pl3 pr3">
-          <h3 className="">Kerala Flood Map</h3>
-          <div className="main-nav">
-            <a
-              href={
-                this.state.position
-                  ? `https://www.microid.in/keralaflood/#12/${
-                      this.state.position[0]
-                    }/${this.state.position[1]}`
-                  : "https://www.microid.in/keralaflood/"
-              }
-              target="blank"
-              className="link black ba pa2 mr2 br2"
-            >
-              Check Roads
-            </a>
-            <a
-              href="#"
-              onClick={this.locateMe}
-              className="link black ba pa2 mr2 br2"
-            >
-              Locate Me
-            </a>
-            <a
-              href="https://keralarescue.in/request/"
-              target="blank"
-              className="link bg-black white pa2 br2"
-            >
-              Request
-            </a>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button
+                type="button"
+                className="navbar-toggle"
+                data-toggle="collapse"
+                data-target="#myNavbar"
+              >
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+              </button>
+              <h3 className="navbar-brand">Kerala Flood Map</h3>
+            </div>
+            <div className="container collapse navbar-collapse" id="myNavbar">
+              <ul className="flex items-center justify-between row nav navbar-nav navbar-right">
+                <li>
+                  <button
+                    href={
+                      this.state.position
+                        ? `https://www.microid.in/keralaflood/#12/${
+                            this.state.position[0]
+                          }/${this.state.position[1]}`
+                        : "https://www.microid.in/keralaflood/"
+                    }
+                    target="blank"
+                    className="link bg-white black ba pa3 mr2 br2"
+                  >
+                    Check Roads
+                  </button>
+                </li>
+                <li>
+                  <button
+                    href="#"
+                    onClick={this.locateMe}
+                    className="link bg-white black ba pa3 mr2 br2"
+                  >
+                    Locate Me
+                  </button>
+                </li>
+                <li>
+                  <button
+                    href="https://keralarescue.in/request/"
+                    target="blank"
+                    className="link bg-black white pa3 br2"
+                  >
+                    Request
+                  </button>
+                </li>
+              </ul>
+              <ul className="flex items-center justify-between row nav navbar-nav">
+                <li>
+                  <button
+                    href="#"
+                    onClick={this.filterRescue}
+                    className={
+                      !this.state.needsRescue
+                        ? "link bg-white red ba pa3 mr2 br2"
+                        : "link bg-red white pa3 mr2 br2"
+                    }
+                  >
+                    Show: Rescue needed
+                  </button>
+                </li>
+                <li>
+                  <button
+                    href="#"
+                    onClick={this.othersGroup}
+                    className={
+                      !this.state.others
+                        ? "link bg-white green ba pa3 mr2 br2"
+                        : "link bg-green white pa3 mr2 br2"
+                    }
+                  >
+                    Show: Request Made For Other
+                  </button>
+                </li>
+                <li>
+                  <button
+                    href="#"
+                    onClick={this.allReqGroup}
+                    className={
+                      !this.state.allReq
+                        ? "link bg-white black ba pa3 mr2 br2"
+                        : "link bg-black white pa3 mr2 br2"
+                    }
+                  >
+                    Show: All Request
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center pl3 pb2">
-          <a
-            href="#"
-            onClick={this.filterRescue}
-            className={
-              !this.state.needsRescue
-                ? "link red ba pa2 mr2 br2"
-                : "link bg-red white pa2 mr2 br2"
-            }
-          >
-            Show: Rescue needed
-          </a>
-          <a
-            href="#"
-            onClick={this.othersGroup}
-            className={
-              !this.state.others
-                ? "link green ba pa2 mr2 br2"
-                : "link bg-green white pa2 mr2 br2"
-            }
-          >
-            Show: Request Made For Other
-          </a>
-          <a
-            href="#"
-            onClick={this.allReqGroup}
-            className={
-              !this.state.allReq
-                ? "link black ba pa2 mr2 br2"
-                : "link bg-black white pa2 mr2 br2"
-            }
-          >
-            Show: All Request
-          </a>
-        </div>
+        </nav>
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position ? 13 : 7}

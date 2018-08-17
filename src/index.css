@@ -12,6 +12,10 @@ body {
   margin: 0 auto;
 }
 
+.navbar {
+  margin-bottom: 0px;
+}
+
 @media (max-width: 481px) {
   .main-nav {
     width: 100%;
