@@ -11,3 +11,7 @@ body {
   width: 100%;
   margin: 0 auto;
 }
+
+.navbar {
+  margin-bottom: 0px;
+}
