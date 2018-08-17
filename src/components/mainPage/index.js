@@ -2,6 +2,40 @@ import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
 
+const getMarker = ({
+  needsRescue,
+  markersNeedRescue,
+  others,
+  markersReqByOthers,
+  markers
+}) => {
+  if (needsRescue) {
+    return markersNeedRescue;
+  }
+
+  if (others) {
+    return markersReqByOthers;
+  }
+
+  return markers;
+};
+
+const districts = [
+  "alp",
+  "ekm",
+  "idk",
+  "knr",
+  "ksr",
+  "kol",
+  "ktm",
+  "koz",
+  "mpm",
+  "pkd",
+  "ptm",
+  "tvm",
+  "tcr",
+  "wnd"
+];
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -25,8 +59,14 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("/data");
-    const markers = await resp.json();
+    const markers = [];
+    await Promise.all(
+      districts.map(d =>
+        fetch(`https://keralarescue.in/data?district=${d}`)
+          .then(res => markers.push(res.json()))
+          .catch(ex => console.log(ex))
+      )
+    );
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
@@ -150,13 +190,7 @@ class MainPage extends React.Component {
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position ? 13 : 7}
-          markers={
-            this.state.needsRescue
-              ? this.state.markersNeedRescue
-              : this.state.others
-                ? this.state.markersReqByOthers
-                : this.state.markers
-          }
+          markers={getMarker(this.state)}
         />
       </div>
     );
