@@ -19,6 +19,14 @@ const getMarker = ({
 
   return markers;
 };
+
+const getShelters = ({ shelters, gMarkers }) => {
+  if (shelters) {
+    return gMarkers;
+  }
+  return gMarkers.filter(marker => marker.id === 0);
+};
+
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +38,7 @@ class MainPage extends React.Component {
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
+      shelters: false,
       zoom: 7,
       allReq: false,
       gMarkers: []
@@ -38,6 +47,7 @@ class MainPage extends React.Component {
     this.filterRescue = this.filterRescue.bind(this);
     this.othersGroup = this.othersGroup.bind(this);
     this.allReqGroup = this.allReqGroup.bind(this);
+    this.shelterGroup = this.shelterGroup.bind(this);
   }
 
   async componentDidMount() {
@@ -48,9 +58,7 @@ class MainPage extends React.Component {
     );
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
-    const CollectionCenters = gData.filter(
-      key => key.Type_of_Service === "Relief Material Collection"
-    );
+    const CollectionCenters = gData;
 
     this.setState({
       markers: markers,
@@ -81,6 +89,12 @@ class MainPage extends React.Component {
       allReq: !prevState.allReq,
       needsRescue: false,
       others: false
+    }));
+  }
+
+  shelterGroup() {
+    this.setState(prevState => ({
+      shelters: !prevState.shelters
     }));
   }
 
@@ -146,7 +160,7 @@ class MainPage extends React.Component {
                 : "link bg-red white pa2 mr2 br2"
             }
           >
-            Show: Rescue needed
+            Rescue needed
           </a>
           <a
             href="#"
@@ -157,7 +171,7 @@ class MainPage extends React.Component {
                 : "link bg-green white pa2 mr2 br2"
             }
           >
-            Show: Request Made For Other
+            Request Made For Other
           </a>
           <a
             href="#"
@@ -168,14 +182,25 @@ class MainPage extends React.Component {
                 : "link bg-black white pa2 mr2 br2"
             }
           >
-            Show: All Request
+            All Request
+          </a>
+          <a
+            href="#"
+            onClick={this.shelterGroup}
+            className={
+              !this.state.shelters
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            shelters
           </a>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position ? 13 : 7}
           markers={getMarker(this.state)}
-          gMarkers={this.state.gMarkers}
+          gMarkers={getShelters(this.state)}
         />
       </div>
     );
@@ -216,12 +241,14 @@ MainPage.propTypes = {
   gMarkers: PropTypes.arrayOf(
     PropTypes.shape({
       map: PropTypes.shape({
-        Name: PropTypes.string,
-        Contact_Name: PropTypes.string,
-        Contact_Number: PropTypes.string,
-        Type_of_Service: PropTypes.string,
-        Details: PropTypes.string,
-        geometry: PropTypes.string
+        title: PropTypes.string,
+        person_name: PropTypes.string,
+        phone: PropTypes.string,
+        address: PropTypes.string,
+        desc: PropTypes.string,
+        created_at: PropTypes.string,
+        lng: PropTypes.number,
+        lat: PropTypes.number
       })
     })
   )

@@ -75,17 +75,11 @@ const MainPageMap = props => (
       attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    {props.gMarkers.map(
-      (gMarkers, index) =>
-        isValidCoords(gMarkers.geometry) ? (
-          <Marker
-            icon={BlackMarkerIcon}
-            position={returnCoord(gMarkers.geometry)}
-          >
-            <MarkerPopupOther marker={gMarkers} />
-          </Marker>
-        ) : null
-    )}
+    {props.gMarkers.map((gMarkers, index) => (
+      <Marker icon={BlackMarkerIcon} position={[gMarkers.lat, gMarkers.lng]}>
+        <MarkerPopupOther marker={gMarkers} />
+      </Marker>
+    ))}
     <MarkerClusterGroup spiderfyOnMaxZoom={false} disableClusteringAtZoom={12}>
       {props.markers.map(
         (marker, index) =>
