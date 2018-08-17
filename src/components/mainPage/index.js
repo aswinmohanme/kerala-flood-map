@@ -35,6 +35,11 @@ class MainPage extends React.Component {
   }
 
   locateMe() {
+    if (this.state.zoom >= 12) {
+      this.setState({ zoom: 7 });
+      return;
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
