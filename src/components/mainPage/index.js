@@ -156,8 +156,8 @@ class MainPage extends React.Component {
             onClick={this.allReqGroup}
             className={
               !this.state.allReq
-                ? "link blue ba pa2 mr2 br2"
-                : "link bg-blue white pa2 mr2 br2"
+                ? "link black ba pa2 mr2 br2"
+                : "link bg-black white pa2 mr2 br2"
             }
           >
             Show: All Request
