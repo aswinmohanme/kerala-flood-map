@@ -143,7 +143,7 @@ class MainPage extends React.Component {
               Locate Me
             </a>
             <a
-              href="https://keralarescue.in/request/"
+              href="/request/"
               target="blank"
               className="link bg-black white pa2 br2"
             >
