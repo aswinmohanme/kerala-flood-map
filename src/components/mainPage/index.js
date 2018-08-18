@@ -19,6 +19,23 @@ const getMarker = ({
   return markers;
 };
 
+const districts = [
+  "alp",
+  "ekm",
+  "idk",
+  "knr",
+  "ksr",
+  "kol",
+  "ktm",
+  "koz",
+  "mpm",
+  "pkd",
+  "ptm",
+  "tvm",
+  "tcr",
+  "wnd"
+];
+
 const getShelters = ({ shelters, gMarkers }) => {
   if (shelters) {
     return gMarkers;
@@ -50,8 +67,12 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("/data");
-    const markers = await resp.json();
+    const markers = [];
+    for (const district of districts) {
+      const resp = await fetch(`/data?district=${district}`);
+      markers.push(resp.json());
+    }
+
     const newData = await Promise.all([
       fetch(
         "https://app.reliefers.org/api/v2/venues/near?src=76.952549,8.487477&subaction=near&venue_type=2"
