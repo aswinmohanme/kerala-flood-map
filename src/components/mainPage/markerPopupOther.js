@@ -1,5 +1,6 @@
 import React from "react";
 import { Popup } from "react-leaflet";
+import dateFormat from "dateformat";
 
 const MarkerPopupOther = props => {
   const { marker } = props;
@@ -24,7 +25,9 @@ const MarkerPopupOther = props => {
         >
           Navigate to the location
         </a>
-        <p className="f6">Created at {marker.created_at}</p>
+        <p className="f6">
+          Created at {dateFormat(marker.dateadded, "default")}
+        </p>
       </div>
     </Popup>
   );
