@@ -39,6 +39,7 @@ const MarkerPopup = props => {
           Navigate to the location
         </a>
         <p className="f6">Location accuracy: {marker.latlng_accuracy}</p>
+        <p className="f6">Created at {marker.dateadded}</p>
       </div>
     </Popup>
   );
