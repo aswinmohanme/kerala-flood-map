@@ -16,7 +16,13 @@ const MarkerPopup = props => {
         ) : (
           <p className="f6">Location : {marker.location}</p>
         )}
-        <p className="f6">Phone Number : {marker.requestee_phone}</p>{" "}
+        <p className="f6">
+          Phone Number :
+          <a className="f6" href={"tel:" + marker.requestee_phone}>
+            {" "}
+            {marker.requestee_phone}
+          </a>
+        </p>{" "}
         {marker.needfood && <p className="f6">Need Food {marker.detailfood}</p>}{" "}
         {marker.needcloth && (
           <p className="f6">Need Cloth {marker.detailcloth}</p>
