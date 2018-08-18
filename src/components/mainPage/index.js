@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
-import gData from "./newData";
 const getMarker = ({
   needsRescue,
   markersNeedRescue,
@@ -19,7 +18,6 @@ const getMarker = ({
 
   return markers;
 };
-
 
 const districts = [
   "alp",
@@ -76,16 +74,26 @@ class MainPage extends React.Component {
       markers.push(resp.json());
     }
 
+    const newData = await Promise.all([
+      fetch(
+        "https://app.reliefers.org/api/v2/venues/near?src=76.952549,8.487477&subaction=near&venue_type=2"
+      ).then(response => response.json()),
+      fetch(
+        "https://app.reliefers.org/api/v2/venues/near?src=76.306811,10.026987&subaction=near&venue_type=2"
+      ).then(response => response.json()),
+      fetch(
+        "https://app.reliefers.org/api/v2/venues/near?src=75.795319,11.254269&subaction=near&venue_type=2"
+      ).then(response => response.json())
+    ]);
+
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
-
+    const tvmEkmClt = newData[0].concat(newData[1], newData[2]);
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
-    const CollectionCenters = gData;
-
     this.setState({
       markers: markers,
-      gMarkers: CollectionCenters,
+      gMarkers: tvmEkmClt,
       markersNeedRescue: needRescueGroup,
       markersReqByOthers: reqByOthers
     });
