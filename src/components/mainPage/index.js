@@ -43,6 +43,7 @@ const getShelters = ({ shelters, gMarkers }) => {
   return gMarkers.filter(marker => marker.id === 0);
 };
 
+
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
