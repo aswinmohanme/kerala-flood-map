@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
-
+import gData from "./newData";
 const getMarker = ({
   needsRescue,
   markersNeedRescue,
@@ -19,6 +19,14 @@ const getMarker = ({
 
   return markers;
 };
+
+const getShelters = ({ shelters, gMarkers }) => {
+  if (shelters) {
+    return gMarkers;
+  }
+  return gMarkers.filter(marker => marker.id === 0);
+};
+
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,15 +38,16 @@ class MainPage extends React.Component {
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
-      genericReq: false,
-      allReq: false
+      shelters: false,
+      zoom: 7,
+      allReq: false,
+      gMarkers: []
     };
-
     this.render = this.render.bind(this);
-    this.locateMe = this.locateMe.bind(this);
     this.filterRescue = this.filterRescue.bind(this);
     this.othersGroup = this.othersGroup.bind(this);
     this.allReqGroup = this.allReqGroup.bind(this);
+    this.shelterGroup = this.shelterGroup.bind(this);
   }
 
   async componentDidMount() {
@@ -49,9 +58,11 @@ class MainPage extends React.Component {
     );
 
     const reqByOthers = markers.filter(marker => marker.is_request_for_others);
+    const CollectionCenters = gData;
 
     this.setState({
       markers: markers,
+      gMarkers: CollectionCenters,
       markersNeedRescue: needRescueGroup,
       markersReqByOthers: reqByOthers
     });
@@ -81,7 +92,18 @@ class MainPage extends React.Component {
     }));
   }
 
+  shelterGroup() {
+    this.setState(prevState => ({
+      shelters: !prevState.shelters
+    }));
+  }
+
   locateMe() {
+    if (this.state.zoom >= 12) {
+      this.setState({ zoom: 7 });
+      return;
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -138,7 +160,7 @@ class MainPage extends React.Component {
                 : "link bg-red white pa2 mr2 br2"
             }
           >
-            Show: Rescue needed
+            Rescue needed
           </a>
           <a
             href="#"
@@ -149,7 +171,7 @@ class MainPage extends React.Component {
                 : "link bg-green white pa2 mr2 br2"
             }
           >
-            Show: Request Made For Other
+            Request Made For Other
           </a>
           <a
             href="#"
@@ -160,13 +182,25 @@ class MainPage extends React.Component {
                 : "link bg-black white pa2 mr2 br2"
             }
           >
-            Show: All Request
+            All Request
+          </a>
+          <a
+            href="#"
+            onClick={this.shelterGroup}
+            className={
+              !this.state.shelters
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            shelters
           </a>
         </div>
         <MainPageMap
           position={this.state.position || [10, 76]}
           zoomLevel={this.state.position ? 13 : 7}
           markers={getMarker(this.state)}
+          gMarkers={getShelters(this.state)}
         />
       </div>
     );
@@ -179,9 +213,9 @@ MainPage.propTypes = {
   markers: PropTypes.arrayOf(
     PropTypes.shape({
       map: PropTypes.shape({
-        latlng: PropTypes.string.isRequired,
-        requestee: PropTypes.string.isRequired,
-        needrescue: PropTypes.bool,
+        Name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        Contact_Name: PropTypes.bool,
         detailrescue: PropTypes.string,
         is_request_for_others: PropTypes.bool,
         location: PropTypes.string,
@@ -201,6 +235,20 @@ MainPage.propTypes = {
         needothers: PropTypes.string,
         dateadded: PropTypes.string,
         needothers: PropTypes.string
+      })
+    })
+  ),
+  gMarkers: PropTypes.arrayOf(
+    PropTypes.shape({
+      map: PropTypes.shape({
+        title: PropTypes.string,
+        person_name: PropTypes.string,
+        phone: PropTypes.string,
+        address: PropTypes.string,
+        desc: PropTypes.string,
+        created_at: PropTypes.string,
+        lng: PropTypes.number,
+        lat: PropTypes.number
       })
     })
   )
