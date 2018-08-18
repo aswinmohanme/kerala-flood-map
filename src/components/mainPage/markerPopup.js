@@ -1,5 +1,6 @@
 import React from "react";
 import { Popup } from "react-leaflet";
+import dateFormat from "dateformat";
 
 const MarkerPopup = props => {
   const { marker } = props;
@@ -15,10 +16,14 @@ const MarkerPopup = props => {
         ) : (
           <p className="f6">Location : {marker.location}</p>
         )}
-        <p className="f6">Phone Number : {marker.requestee_phone}</p>
-        {marker.needfood && (
-          <p className="f6">Need Food {marker.detailfood}</p>
-        )}{" "}
+        <p className="f6">
+          Phone Number :
+          <a className="f6" href={"tel:" + marker.requestee_phone}>
+            {" "}
+            {marker.requestee_phone}
+          </a>
+        </p>{" "}
+        {marker.needfood && <p className="f6">Need Food {marker.detailfood}</p>}{" "}
         {marker.needcloth && (
           <p className="f6">Need Cloth {marker.detailcloth}</p>
         )}
@@ -35,11 +40,13 @@ const MarkerPopup = props => {
           <p className="f6">Need Medical {marker.detailmed}</p>
         )}
         <p className="f6">{marker.needothers}</p>
-        <a href={"http://maps.google.com/maps?q=loc:" + marker.latlng}>
+        <a href={"http://maps.google.com/maps?q=loc:" + marker.latlng} target={"_blank"}>
           Navigate to the location
         </a>
         <p className="f6">Location accuracy: {marker.latlng_accuracy}</p>
-        <p className="f6">Created at {marker.dateadded}</p>
+        <p className="f6">
+          Created at {dateFormat(marker.dateadded, "default")}
+        </p>
       </div>
     </Popup>
   );
