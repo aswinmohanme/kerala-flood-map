@@ -35,7 +35,7 @@ const MarkerPopup = props => {
           <p className="f6">Need Medical {marker.detailmed}</p>
         )}
         <p className="f6">{marker.needothers}</p>
-        <a href={"http://maps.google.com/maps?q=loc:" + marker.latlng}>
+        <a href={"http://maps.google.com/maps?q=loc:" + marker.latlng} target={"_blank"}>
           Navigate to the location
         </a>
         <p className="f6">Location accuracy: {marker.latlng_accuracy}</p>
