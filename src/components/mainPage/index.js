@@ -19,23 +19,6 @@ const getMarker = ({
   return markers;
 };
 
-const districts = [
-  "alp",
-  "ekm",
-  "idk",
-  "knr",
-  "ksr",
-  "kol",
-  "ktm",
-  "koz",
-  "mpm",
-  "pkd",
-  "ptm",
-  "tvm",
-  "tcr",
-  "wnd"
-];
-
 const getShelters = ({ shelters, gMarkers }) => {
   if (shelters) {
     return gMarkers;
@@ -67,12 +50,8 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const markers = [];
-    for (const district of districts) {
-      const resp = await fetch(`/data?district=${district}`);
-      const markerData = await resp.json();
-      markers.push(markerData);
-    }
+    const resp = await fetch(`/data`);
+    const markers = await resp.json();
 
     const newData = await Promise.all([
       fetch(
