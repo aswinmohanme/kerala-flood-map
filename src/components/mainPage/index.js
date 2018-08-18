@@ -38,7 +38,7 @@ class MainPage extends React.Component {
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
-      shelters: false,
+      shelters: true,
       zoom: 7,
       allReq: false,
       gMarkers: []
@@ -48,6 +48,7 @@ class MainPage extends React.Component {
     this.othersGroup = this.othersGroup.bind(this);
     this.allReqGroup = this.allReqGroup.bind(this);
     this.shelterGroup = this.shelterGroup.bind(this);
+    this.locateMe = this.locateMe.bind(this);
   }
 
   async componentDidMount() {
@@ -92,6 +93,7 @@ class MainPage extends React.Component {
     }));
   }
 
+  // Hide Rescue Needed to Reduce Clutter
   shelterGroup() {
     this.setState(prevState => ({
       shelters: !prevState.shelters
@@ -164,6 +166,17 @@ class MainPage extends React.Component {
           </a>
           <a
             href="#"
+            onClick={this.shelterGroup}
+            className={
+              !this.state.shelters
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            Shelters
+          </a>
+          <a
+            href="#"
             onClick={this.othersGroup}
             className={
               !this.state.others
@@ -183,17 +196,6 @@ class MainPage extends React.Component {
             }
           >
             All Request
-          </a>
-          <a
-            href="#"
-            onClick={this.shelterGroup}
-            className={
-              !this.state.shelters
-                ? "link blue ba pa2 mr2 br2"
-                : "link bg-blue white pa2 mr2 br2"
-            }
-          >
-            shelters
           </a>
         </div>
         <MainPageMap
