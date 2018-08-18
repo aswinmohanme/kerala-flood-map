@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
-
+import gData from "./newData";
 const getMarker = ({
   needsRescue,
   markersNeedRescue,
@@ -38,8 +38,7 @@ class MainPage extends React.Component {
       markersReqByOthers: [],
       needsRescue: true,
       others: false,
-      shelters: false,
-      zoom: 7,
+      shelters: true,
       allReq: false,
       gMarkers: []
     };
@@ -48,6 +47,7 @@ class MainPage extends React.Component {
     this.othersGroup = this.othersGroup.bind(this);
     this.allReqGroup = this.allReqGroup.bind(this);
     this.shelterGroup = this.shelterGroup.bind(this);
+    this.locateMe = this.locateMe.bind(this);
   }
 
   async componentDidMount() {
@@ -102,6 +102,7 @@ class MainPage extends React.Component {
     }));
   }
 
+  // Hide Rescue Needed to Reduce Clutter
   shelterGroup() {
     this.setState(prevState => ({
       shelters: !prevState.shelters
@@ -145,7 +146,7 @@ class MainPage extends React.Component {
               Check Roads
             </a>
             <a
-              href="#"
+              href="#locateMe"
               onClick={this.locateMe}
               className="link black ba pa2 mr2 br2"
             >
@@ -162,7 +163,7 @@ class MainPage extends React.Component {
         </div>
         <div className="flex items-center pl3 pb2">
           <a
-            href="#"
+            href="#rescueNeeded"
             onClick={this.filterRescue}
             className={
               !this.state.needsRescue
@@ -173,7 +174,18 @@ class MainPage extends React.Component {
             Rescue needed
           </a>
           <a
-            href="#"
+            href="#showShelters"
+            onClick={this.shelterGroup}
+            className={
+              !this.state.shelters
+                ? "link blue ba pa2 mr2 br2"
+                : "link bg-blue white pa2 mr2 br2"
+            }
+          >
+            Shelters
+          </a>
+          <a
+            href="#showOthers"
             onClick={this.othersGroup}
             className={
               !this.state.others
@@ -184,7 +196,7 @@ class MainPage extends React.Component {
             Request Made For Other
           </a>
           <a
-            href="#"
+            href="#showAll"
             onClick={this.allReqGroup}
             className={
               !this.state.allReq
