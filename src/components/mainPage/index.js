@@ -43,7 +43,6 @@ const getShelters = ({ shelters, gMarkers }) => {
   return gMarkers.filter(marker => marker.id === 0);
 };
 
-
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +70,8 @@ class MainPage extends React.Component {
     const markers = [];
     for (const district of districts) {
       const resp = await fetch(`/data?district=${district}`);
-      markers.push(resp.json());
+      const markerData = await resp.json();
+      markers.push(markerData);
     }
 
     const newData = await Promise.all([
