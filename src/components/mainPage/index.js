@@ -20,12 +20,31 @@ const getMarker = ({
   return markers;
 };
 
+
+const districts = [
+  "alp",
+  "ekm",
+  "idk",
+  "knr",
+  "ksr",
+  "kol",
+  "ktm",
+  "koz",
+  "mpm",
+  "pkd",
+  "ptm",
+  "tvm",
+  "tcr",
+  "wnd"
+];
+
 const getShelters = ({ shelters, gMarkers }) => {
   if (shelters) {
     return gMarkers;
   }
   return gMarkers.filter(marker => marker.id === 0);
 };
+
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -51,8 +70,12 @@ class MainPage extends React.Component {
   }
 
   async componentDidMount() {
-    const resp = await fetch("/data");
-    const markers = await resp.json();
+    const markers = [];
+    for (const district of districts) {
+      const resp = await fetch(`/data?district=${district}`);
+      markers.push(resp.json());
+    }
+
     const needRescueGroup = markers.filter(
       marker => !marker.is_request_for_others
     );
