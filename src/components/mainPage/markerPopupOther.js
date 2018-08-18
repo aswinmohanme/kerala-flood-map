@@ -27,7 +27,7 @@ const MarkerPopupOther = props => {
           Navigate to the location
         </a>
         <p className="f6">
-          Created at {dateFormat(marker.dateadded, "default")}
+          Created at {dateFormat(marker.created_at, "default")}
         </p>
       </div>
     </Popup>
