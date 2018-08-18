@@ -18,4 +18,5 @@ We're at the 72-flood-report-map channel
 * Make sure you have node installed
 * Clone the repo
 * Run `npm install` from the root
+* Copy data from keralarescue.in/data to public/data
 * Hack On!
