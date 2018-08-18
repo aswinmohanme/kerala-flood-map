@@ -132,6 +132,9 @@ class MainPage extends React.Component {
         <div className="flex items-center justify-between pl3 pr3">
           <h3 className="">Kerala Flood Map</h3>
           <div className="main-nav">
+            <a href="/" className="link green ba pa2 mr2 br2">
+              Home
+            </a>
             <a
               href={
                 this.state.position
