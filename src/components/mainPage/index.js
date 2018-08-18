@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MainPageMap from "./mainPageMap";
-import gData from "./newData";
 const getMarker = ({
   needsRescue,
   markersNeedRescue,
@@ -205,17 +204,6 @@ class MainPage extends React.Component {
             }
           >
             All Request
-          </a>
-          <a
-            href="#"
-            onClick={this.shelterGroup}
-            className={
-              !this.state.shelters
-                ? "link blue ba pa2 mr2 br2"
-                : "link bg-blue white pa2 mr2 br2"
-            }
-          >
-            shelters
           </a>
         </div>
         <MainPageMap
