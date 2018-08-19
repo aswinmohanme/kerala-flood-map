@@ -244,8 +244,7 @@ MainPage.propTypes = {
         needmed: PropTypes.string,
         detailmed: PropTypes.string,
         needothers: PropTypes.string,
-        dateadded: PropTypes.string,
-        needothers: PropTypes.string
+        dateadded: PropTypes.string
       })
     })
   ),

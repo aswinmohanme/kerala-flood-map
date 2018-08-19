@@ -22,7 +22,7 @@ function isValidCoords(latlng) {
 }
 
 function isAccurate(accuracy) {
-  const meters = parseInt(accuracy.match(/\d+/g));
+  const meters = parseInt(accuracy.match(/\d+/g), 10);
 
   return meters <= 3000;
 }
